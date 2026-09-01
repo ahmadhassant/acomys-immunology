@@ -1,0 +1,64 @@
+# ==============================================================================
+# Acomys project - BIOINFORMATICS TOOLS environment (command-line binaries)
+#
+#   conda env create -f environment-bio.yml
+#
+# You do NOT activate this env to run the pipeline. The tools are invoked as
+# subprocesses, so it is enough to put them on PATH:
+#
+#   conda activate acomys                       # the Python env
+#   export PATH="$HOME/miniconda3/envs/acomys-bio/bin:$PATH"
+#
+# (Adjust the prefix if your conda lives elsewhere: `conda info --base`.)
+#
+# WHY SEPARATE: these tools drag in their own Python, Perl and R pins. Solving
+# them alongside a pinned scientific stack is where conda environments go to
+# die. Split, they both solve in under a minute.
+#
+# PLATFORM: linux-64 / osx-64 only. This is the reason for WSL2.
+# ==============================================================================
+name: acomys-bio
+
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  # ---- WP1 data acquisition ----
+  - ncbi-datasets-cli          # genome downloads
+  - sra-tools>=3.0             # WP5 raw reads
+  # entrez-direct deliberately OMITTED - the TSA fetch is done in Biopython
+  # instead. One less fragile Perl dependency.
+
+  # ---- WP2 orthology ----
+  - blast>=2.15                # reciprocal best hits
+  - diamond>=2.1               # faster protein RBH for the 200-gene background
+  - orthofinder>=2.5           # orthology cross-check
+
+  # ---- WP4 selection analysis ----
+  - hyphy>=2.5                 # aBSREL, RELAX
+  - mafft
+  - prank                      # codon-aware alignment
+
+  # ---- WP2b UTR calling from RNA-seq (escapes annotation circularity) ----
+  # HISAT2 rather than STAR: STAR needs ~32 GB RAM to index a 2.5 Gb genome,
+  # which WSL2 will not have by default. HISAT2 indexes in ~8 GB.
+  - hisat2>=2.2
+  - stringtie>=2.2             # transcript models -> evidence-based UTRs
+  - samtools>=1.18
+  - fastp                      # read trimming
+  - gffread                    # GTF/GFF handling, sequence extraction
+
+  # ---- WP5 quantification + QC ----
+  - salmon>=1.10               # species-native re-quantification
+  - fastqc
+  - multiqc
+
+# ------------------------------------------------------------------------------
+# Install separately if needed:
+#   CIBERSORTx  - web/docker only, requires registration (WP5-C3)
+#   R + limma/edgeR/DESeq2 - WP5-C2. Use a third env (r-acomys) rather than
+#                            adding R here; bioconductor pins conflict with
+#                            several tools above.
+# ------------------------------------------------------------------------------

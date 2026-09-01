@@ -1,0 +1,151 @@
+# ==============================================================================
+# Data - never committed. Reproduce with: python run_all.py --from 1
+# Provenance lives in data/provenance_manifest.json, which IS committed.
+# ==============================================================================
+data/raw/
+data/reference/genomes/
+data/reference/transcriptome/
+data/reference/orthologs/*/
+*.fasta
+*.fa
+*.fastq
+*.fastq.gz
+*.fq.gz
+*.sra
+*.bam
+*.sam
+*.zip
+*.tar.gz
+*.gz
+
+# BLAST databases
+*.nin
+*.nhr
+*.nsq
+*.pin
+*.phr
+*.psq
+*.ndb
+*.not
+*.ntf
+*.nto
+
+# ==============================================================================
+# Committed anyway - small, and they are the provenance record
+# ==============================================================================
+!data/provenance_manifest.json
+!data/reference/orthologs/ortholog_table.csv
+!data/reference/orthologs/qc_report.csv
+!data/reference/orthologs/random_background.txt
+!data/raw/geo/GSE168876_samples.csv
+
+# ==============================================================================
+# Python
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# ==============================================================================
+# OS / editor
+# ==============================================================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+~$*
+*.tmp
+
+# ==============================================================================
+# Results - figures and tables ARE committed alongside the code that made them.
+# Large intermediates are not.
+# ==============================================================================
+results/**/*.pkl
+results/**/*.npy
+results/**/*.h5
+logs/
+
+# ==============================================================================
+# Large artefacts that the existing patterns did NOT catch.
+# Audited 22 Aug 2026: without these, `git add .` would have staged 110 GB.
+# ==============================================================================
+
+# SRA extraction temp. `*.tmp` does not match a DIRECTORY named
+# `fasterq.tmp.<HOST>.<PID>`, and fasterq-dump leaves these behind when it is
+# interrupted. There were 101 GB of them in this working tree.
+fasterq.tmp.*/
+*.sra.tmp
+
+# AnnData. `*.h5` does not match `.h5ad` - these were 2.3 GB.
+*.h5ad
+*.loom
+
+# Reference downloads not under the paths listed above
+data/reference/nguyen2023/
+*.2bit
+*.gff3
+*.gtf
+*.gff
+
+# Superseded working copies
+Old data/
+data.zip
+
+# ==============================================================================
+# NEVER commit
+# ==============================================================================
+.env
+.env.*
+!.env.example
+*api_key*
+*.key
+*.pem
+*_token*
+
+# ==============================================================================
+# PRE-SUBMISSION EMBARGO — added 1 Sep 2026 after the manuscripts, the internal
+# memos and every results write-up were pushed to a PUBLIC repository.
+#
+# Until the paper is submitted, this repository holds CODE ONLY. Everything
+# below is blocked by pattern rather than by remembering, because remembering
+# is what failed. Re-open these deliberately at submission, one line at a time.
+# ==============================================================================
+
+# Manuscripts, decks, spreadsheets — no office document belongs here
+*.docx
+*.doc
+*.xlsx
+*.xls
+*.pptx
+*.odt
+*.rtf
+
+# Third-party PDFs (copyright) and any PDF at all
+*.pdf
+references/
+
+# Results, figures and their write-ups
+results/
+figures/
+*_RESULTS_*.md
+WP*.md
+PREREGISTRATION.md
+
+# Internal correspondence and working notes
+*Enas*
+*HANDOFF*
+*STATUS_MEMO*
+*REPLY_to_*
+*CRITIQUE*
+*JENNI*
+*MASTER_PLAN*
+RELEASE.md
+
+# Release metadata — restore at submission, not before
+.zenodo.json
+
+# Internal containment instructions - never publish
+DO_THIS_NOW.md

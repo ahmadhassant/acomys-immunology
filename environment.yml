@@ -1,0 +1,50 @@
+# ==============================================================================
+# Acomys project - ANALYSIS environment (Python stack)
+#
+#   conda env create -f environment.yml
+#   conda activate acomys
+#
+# Deliberately loose pins on minor versions. Tight pins across conda-forge +
+# bioconda are a common cause of unsolvable environments; we pin the majors
+# that matter and lock the exact resolved versions afterwards:
+#
+#   conda env export --no-builds > environment.lock.yml
+#
+# The heavy bioinformatics CLI tools live in a SEPARATE env
+# (environment-bio.yml). They are called as subprocesses, never imported, so
+# they do not need to share an interpreter - and keeping them apart is what
+# makes both environments solvable.
+#
+# PLATFORM: linux-64 / osx-64. bioconda has no Windows builds; use WSL2.
+# ==============================================================================
+name: acomys
+
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - python=3.11
+
+  # ---- core scientific stack ----
+  - numpy>=1.26,<2.0          # <2.0: shap and some bioconda tools lag on numpy 2
+  - pandas>=2.1
+  - scipy>=1.11
+  - scikit-learn>=1.4
+  - statsmodels>=0.14
+  - matplotlib-base>=3.8
+  - seaborn>=0.13
+  - openpyxl>=3.1
+  - requests>=2.31
+  - tqdm
+
+  # ---- bioinformatics (python-level only) ----
+  - biopython>=1.83
+  - pysam                      # BAM handling in WP5
+
+  # ---- pip-only ----
+  - pip
+  - pip:
+      - shap>=0.45             # WP3 arm 4 (descriptive only)
+      - dendropy>=4.6          # phylogenetic trees for the PGLS

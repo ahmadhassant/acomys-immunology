@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+title: "acomys-immunology: analysis code for a pre-registered comparative study of the CX3CL1-CX3CR1-CCR2-TGF-beta module in murid rodents"
+message: If you use this software, please cite it.
+type: software
+authors:
+  - given-names: Ahmad
+    family-names: Hassanat
+    orcid: 'https://orcid.org/0000-0002-9991-304X'
+abstract: >-
+  Analysis pipeline for a pre-registered, phylogeny-controlled comparative
+  study of the CX3CL1-CX3CR1-CCR2-TGF-beta module across murid rodents,
+  using public data only. Includes an alignment-free k-mer pipeline with a
+  phylogenetic-residual endpoint, PAML branch-site selection analysis with
+  multi-start fitting, species-native expression re-quantification, a
+  sequence/expression convergence test, and a reading-frame integrity audit.
+  Results and the associated manuscript are not yet released.
+keywords:
+  - Acomys
+  - comparative genomics
+  - pre-registration
+  - alignment-free
+  - dN/dS
+license: MIT
+repository-code: 'https://github.com/ahmadhassant/acomys-immunology'
